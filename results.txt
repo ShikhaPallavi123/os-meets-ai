@@ -1,0 +1,21 @@
+PART A  (static vs paged KV allocation)
+  mean live tokens per request: 950
+  static  memory utilization  46.4%   avg concurrent requests per 200k tokens:   97.7
+  paged   memory utilization  99.3%   avg concurrent requests per 200k tokens:  209.1
+  paged / static concurrency: 2.14x
+
+OSTEP looping-sequential demo (50 pages, cache 49)
+  fifo    hit rate   0.0%
+  lru     hit rate   0.0%
+  random  hit rate  95.4%
+
+PART B  (prefix-cache hit rate, mean +- std over 5 seeds; cache as fraction of peak working set)
+  frac                lru          random            loop            rate       rate_idle          oracle
+  0.05       12.3+- 2.0     12.4+- 1.8     12.2+- 1.7     12.5+- 1.7     12.7+- 1.9     15.8+- 3.1
+  0.10       23.0+- 2.3     23.1+- 2.1     16.8+- 2.1     20.5+- 0.6     25.3+- 2.0     40.1+- 4.0
+  0.20       43.2+- 1.7     42.0+- 2.8     19.9+- 2.6     27.3+- 2.7     44.8+- 2.7     66.7+- 3.1
+  0.30       58.6+- 3.3     55.4+- 3.1     22.9+- 2.9     31.6+- 3.4     58.6+- 3.5     79.8+- 2.6
+  0.50       78.5+- 3.0     71.5+- 2.2     28.1+- 3.5     37.9+- 3.8     76.4+- 2.4     91.9+- 0.9
+  0.75       90.5+- 0.9     82.2+- 1.2     34.5+- 4.1     43.2+- 4.0     89.4+- 1.2     97.1+- 0.3
+
+saved figure1_prefix_cache_policies.png
